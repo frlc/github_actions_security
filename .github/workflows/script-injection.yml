@@ -1,19 +1,16 @@
 name: Label Issues (Script Injection Example)
-on:
-  issues:
-    types:
-      - opened
+on: workflow_dispatch
+env:
+  GLOBAL_VAR: production
 jobs:
-  assign-label:
+  show-info:
     runs-on: ubuntu-latest
+    env:
+      JOB_VAR: giropops-strigus
     steps:
-      - name: Assign label
-        env:
-          TITLE: ${{ github.event.issue.title }}
-        run: |
-          issue_title="${{ github.event.issue.title }}"
-          if [[ "$TITLE" == *"bug"* ]]; then
-          echo "Issue is about a bug!"
-          else
-          echo "Issue is not about a bug"
-          fi
+      - run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "SO  do Runner: ${{ runner.so }}"
+          echo "Global: $GLOBAL_VAR / Job: $JOB_VAR"
+          
